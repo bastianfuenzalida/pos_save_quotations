@@ -1,0 +1,158 @@
+<odoo>
+    <data>
+        <menuitem id="menu_pos_save_quotation"
+            parent="point_of_sale.menu_point_root"
+            sequence="21"
+            name="POS Quotations"
+            groups="point_of_sale.group_pos_manager"
+            />
+
+        <record model="ir.ui.view" id="pos_bus_config">
+            <field name="name">pos.config.form.view.inherit</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='features']" position="before">
+                    <group string="Quotations Configuration">
+                        <field name="allow_save_quotation"/>
+                        <field name="delete_after_save"/>
+                        <field name="allow_load_data"/>
+                        <field name="shop_id" attrs="{'required': [('allow_load_data', '=', True)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="pos_bus_extend" model="ir.ui.view">
+            <field name="name">pos.config.tree.view</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="shop_id"/>
+                    <field name="allow_save_quotation"/>
+                    <field name="delete_after_save"/>
+                    <field name="allow_load_data"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="pos_shop_tree" model="ir.ui.view">
+            <field name="name">pos.shop.tree</field>
+            <field name="model">pos.shop</field>
+            <field name="arch" type="xml">
+                <tree string="Shops">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pos_shop_form" model="ir.ui.view">
+            <field name="name">pos.shop.form</field>
+            <field name="model">pos.shop</field>
+            <field name="arch" type="xml">
+                <form string="Shops">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image"}'/>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_pos_shop">
+            <field name="name">Shops</field>
+            <field name="res_model">pos.shop</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_act_pos_shop"
+            parent="menu_pos_save_quotation"
+            action="act_pos_shop"
+            sequence="10"
+            name="Shops"
+            groups="point_of_sale.group_pos_manager"
+            />
+
+        <record id="pos_quotation_tree" model="ir.ui.view">
+            <field name="name">pos.quotation.tree</field>
+            <field name="model">pos.quotation</field>
+            <field name="arch" type="xml">
+                <tree string="Quotations save"  options="{'no_edit': True, 'no_create': True}" colors="gray: state == 'removed'; blue: state == 'waiting_transfer'">
+                    <field name="name"/>
+                    <field name="uid"/>
+                    <field name="session_id"/>
+                    <field name="shop_ids"/>
+                    <field name="user_id"/>
+                    <field name="create_date"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <button string="Remove Quotation" type="object" icon="fa fa-check" states="waiting_transfer" name="remove_pos_quotation"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="pos_quotation_form" model="ir.ui.view">
+            <field name="name">pos.quotation.form</field>
+            <field name="model">pos.quotation</field>
+            <field name="arch" type="xml">
+                <form string="Quotations save" options="{'no_edit': True, 'no_create': True}">
+                    <header>
+                        <button string="Remove Quotation" type="object" class="highlight" states="waiting_transfer" name="remove_pos_quotation"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="uid"/>
+                                <field name="session_id"/>
+                                <field name="shop_ids" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="create_date"/>
+                                <field name="partner_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="note" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_pos_quotation">
+            <field name="name">Quotations of POS</field>
+            <field name="res_model">pos.quotation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_act_pos_quotation"
+            parent="menu_pos_save_quotation"
+            sequence="20"
+            action="act_pos_quotation"
+            name="Quotations"
+            groups="point_of_sale.group_pos_manager"
+            />
+
+        <record model="ir.ui.view" id="view_pos_pos_form">
+            <field name="name">pos.order</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='session_id']" position="after">
+                    <field name="quotation_id"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

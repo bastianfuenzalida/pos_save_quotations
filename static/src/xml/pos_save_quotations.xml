@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="shops_popup">
+        <div class="modal-dialog">
+            <div class="popup">
+                <p class="title">Please choice shop and click to Save</p>
+                <div class="product-list-scroller touch-scrollable">
+                    <div class="product-list">
+                        <t t-if="widget.shops">
+                            <t t-foreach="widget.shops" t-as="shop">
+                                <span class='product' t-att-data-id="shop.id">
+                                    <div class="product-img">
+                                        <img t-att-src="widget.image_url + shop.id" />
+                                    </div>
+                                    <div class="product-name">
+                                        <t t-esc="shop.name"/>
+                                    </div>
+                                </span>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="button confirm">
+                        Save
+                    </div>
+                    <div class="button cancel">
+                        Close
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Quotations screen -->
+    <t t-name="quotation_screen">
+        <div class="wrapper">
+            <div class="main-panel" style="overflow: auto">
+                <div class="content">
+                    <div class='content client-details-contents col-md-12'></div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="header text-left">
+                                        <span class='searchbox' style="width:300px">
+                                            <input placeholder='Search Quotation' style="width:250px"/>
+                                            <span class='search-clear'></span>
+                                        </span>
+                                        <span class='searchbox'></span>
+                                        <fieldset>
+                                            <div class="col-sm-8" style="padding-left: 0px">
+                                                <button class="back control-button btn btn-default btn-fill btn-wd"><i class="pe-7s-angle-left"></i> Back</button>
+                                                <button class="syncing-now control-button btn btn-primary btn-fill btn-wd"><i class="pe-7s-refresh-cloud"></i> Get Quotations</button>
+                                                <button class="load-quotation control-button btn btn-danger btn-fill btn-wd"><i class="pe-7s-ticket"></i> Made Order</button>
+                                            </div>
+                                        </fieldset>
+
+                                        </div>
+                                    <div class="content table-responsive table-full-width">
+                                        <table class="table table-bigboy">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Order</th>
+                                                    <th>Customer</th>
+                                                    <th>Address</th>
+                                                    <th>Mobile</th>
+                                                    <th>Phone</th>
+                                                    <th>Note</th>
+                                                    <th>Amount Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class='client-list-contents'>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="quotation">
+        <tr class='quotation-line' t-att-data-id='quotation.id'>
+            <td><t t-esc='quotation.name'/></td>
+            <td><t t-esc='quotation.uid'/></td>
+            <td><t t-if="quotation.partner_id.name"><t t-esc='quotation.partner_id.name'/></t></td>
+            <td><t t-if="quotation.partner_id.street"><t t-esc='quotation.partner_id.street'/></t></td>
+            <td><t t-if="quotation.partner_id.phone"><t t-esc='quotation.partner_id.phone'/></t></td>
+            <td><t t-if="quotation.partner_id.mobile"><t t-esc='quotation.partner_id.mobile'/></t></td>
+            <td><t t-if="quotation.datas.note"><t t-esc='quotation.datas.note'/></t></td>
+            <td><t t-esc='quotation.amount_total'/></td>
+        </tr>
+    </t>
+
+    <t t-extend="OrderWidget">
+        <t t-jquery=".order" t-operation="after">
+            <div class="quotation-note">
+                <p>Shipping address (notes):</p>
+                <textarea class='order-note' rows="3" cols="40"><t t-esc="order.note" /></textarea>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="button_save_quotation">
+        <button class="save-quotation control-button btn btn-success btn-fill btn-wd"><i class="pe-7s-bottom-arrow"></i> Save Quotations</button>
+    </t>
+
+    <t t-name="button_loading_quotation">
+        <button class="loading-quotation control-button btn btn-success btn-fill btn-wd"><i class="pe-7s-diskette"></i> Loading Quotations</button>
+    </t>
+
+</templates>

@@ -1,0 +1,29 @@
+.config-selected {
+    border: 3px solid #6EC89B !important;
+}
+.quotation-selected {
+    background: rgb(110,200,155);
+    color: white;
+    border: solid 1px rgb(110,200,155);
+}
+.pos .quotation-name {
+    height: 30px;
+    font-size: 14px;
+}
+.pos .pos-branding {
+    left: 50px;
+    width: 339px;
+}
+.pos .quotation-note {
+    padding-left: 5px;
+}
+.pos .order-note {
+    width: 97%;
+}
+.pos .quotation-line:hover {
+    background: gray;
+    color: white
+}
+.pos .payment-numpad .numpad {
+    width: 300px;
+}
